@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaraAI - Phase 2: Engagement Intelligence</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbc;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f7fa;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --personality-color: #9b59b6;
+            --emotion-color: #e67e22;
+            --humor-color: #f1c40f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .phase {
+            padding: 8px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        
+        .chat-container {
+            flex: 1;
+            min-width: 300px;
+            margin-right: 30px;
+        }
+        
+        .chat-window {
+            height: 400px;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background-color: var(--light-color);
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            position: relative;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background-color: white;
+            border: 1px solid #e1e8ed;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-tag {
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .humor-tag {
+            background-color: var(--humor-color);
+        }
+        
+        .emotion-tag {
+            background-color: var(--emotion-color);
+        }
+        
+        .personality-tag {
+            background-color: var(--personality-color);
+        }
+        
+        .input-area {
+            display: flex;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e1e8ed;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .features-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .feature-card.humor {
+            border-left-color: var(--humor-color);
+        }
+        
+        .feature-card.emotion {
+            border-left-color: var(--emotion-color);
+        }
+        
+        .feature-card.personality {
+            border-left-color: var(--personality-color);
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card.humor h3 {
+            color: var(--humor-color);
+        }
+        
+        .feature-card.emotion h3 {
+            color: var(--emotion-color);
+        }
+        
+        .feature-card.personality h3 {
+            color: var(--personality-color);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e1e8ed;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .humor-progress {
+            background-color: var(--humor-color);
+        }
+        
+        .emotion-progress {
+            background-color: var(--emotion-color);
+        }
+        
+        .personality-progress {
+            background-color: var(--personality-color);
+        }
+        
+        .status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .metric-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+        }
+        
+        .mood-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: var(--success-color);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-color);
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .chat-container {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ZaraAI Companion</h1>
+            <p class="subtitle">Phase 2: Advanced Engagement Intelligence</p>
+            <div class="phase-indicator">
+                <div class="phase">Building on Phase 1 Core Intelligence</div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="chat-container">
+                <h2>ZaraAI Interaction Demo</h2>
+                <div class="chat-window" id="chatWindow">
+                    <div class="message ai-message">
+                        <div class="message-tag personality-tag">Personality</div>
+                        Hello! I'm ZaraAI, now with enhanced engagement capabilities. I've learned from our previous interactions and I'm ready to assist you with a more personalized approach!
+                    </div>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Type your message here...">
+                    <button id="sendButton">Send</button>
+                </div>
+                
+                <div class="ai-status">
+                    <div class="mood-indicator" id="moodIndicator"></div>
+                    <div id="statusText">ZaraAI is in a positive mood and ready to engage!</div>
+                </div>
+            </div>
+            
+            <div class="features-panel">
+                <h2>Phase 2 Advanced Features</h2>
+                
+                <div class="feature-card humor">
+                    <h3>Advanced Humor Engine</h3>
+                    <p>Context-aware joke generation, pun detection, wit calibration, and comedic timing based on conversation flow and user preferences.</p>
+                    <div class="progress-bar">
+                        <div class="progress humor-progress" style="width: 85%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>85%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card emotion">
+                    <h3>Emotional Intelligence System</h3>
+                    <p>Real-time emotion detection, sentiment analysis, empathetic response generation, and mood adaptation based on user interaction patterns.</p>
+                    <div class="progress-bar">
+                        <div class="progress emotion-progress" style="width: 70%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>70%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card personality">
+                    <h3>Personality Refinement</h3>
+                    <p>Dynamic personality adaptation, memory of user preferences, conversational style adjustment, and long-term relationship building.</p>
+                    <div class="progress-bar">
+                        <div class="progress personality-progress" style="width: 60%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>60%</span>
+                    </div>
+                </div>
+                
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">User Satisfaction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">78%</div>
+                        <div class="metric-label">Engagement Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">3.4x</div>
+                        <div class="metric-label">Interaction Duration</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">64%</div>
+                        <div class="metric-label">Humor Success Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>ZaraAI Companion - Phase 2: Advanced Engagement Intelligence | Building on Phase 1 Core Intelligence Foundation</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatWindow = document.getElementById('chatWindow');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const moodIndicator = document.getElementById('moodIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            // User profile and interaction history
+            const userProfile = {
+                name: '',
+                interests: [],
+                mood: 'neutral',
+                humorPreference: 'medium',
+                conversationHistory: []
+            };
+            
+            // ZaraAI personality state
+            const zaraState = {
+                mood: 'positive',
+                engagementLevel: 0.7,
+                humorFrequency: 0.3,
+                empathyLevel: 0.8
+            };
+            
+            // Enhanced responses with tagging system
+            const responses = {
+                humor: [
+                    {text: "Why don't scientists trust atoms? Because they make up everything!", type: "pun"},
+                    {text: "I told my computer I needed a break, and it said '404 - Break Not Found'.", type: "tech-humor"},
+                    {text: "Why did the AI cross the road? To optimize the chicken's pathfinding algorithm!", type: "ai-humor"},
+                    {text: "I'm reading a book on anti-gravity. It's impossible to put down!", type: "wordplay"},
+                    {text: "What do you call a fake noodle? An impasta! Sorry, my humor algorithms might need calibration.", type: "self-aware"}
+                ],
+                emotional: [
+                    {text: "I sense you might be feeling a bit down. Would you like to talk about what's bothering you?", type: "empathy", mood: "sad"},
+                    {text: "That sounds exciting! I'm happy to hear about your positive experience.", type: "joy", mood: "happy"},
+                    {text: "I understand this might be frustrating. Let's work through it together.", type: "support", mood: "frustrated"},
+                    {text: "It sounds like you're feeling overwhelmed. Would it help to break this down into smaller steps?", type: "comfort", mood: "overwhelmed"},
+                    {text: "I can hear the enthusiasm in your words! That's wonderful to experience.", type: "encouragement", mood: "excited"}
+                ],
+                personality: [
+                    {text: "Based on our previous conversations, I've noticed you enjoy learning about technology. Would you like me to share some interesting tech facts?", type: "memory"},
+                    {text: "I remember you mentioned you like hiking. The weather looks perfect for that this weekend!", type: "personalization"},
+                    {text: "You seem to appreciate direct answers, so I'll get straight to the point.", type: "adaptation"},
+                    {text: "I've learned that you respond well to detailed explanations. Let me break this down for you.", type: "learning"},
+                    {text: "Since you enjoy creative thinking, let's approach this problem from a different angle.", type: "customization"}
+                ]
+            };
+            
+            // Function to update ZaraAI's mood and status
+            function updateZaraMood() {
+                // Simple mood cycling for demonstration
+                const moods = [
+                    {mood: "positive", color: "#2ecc71", text: "ZaraAI is in a positive mood and ready to engage!"},
+                    {mood: "curious", color: "#3498db", text: "ZaraAI is feeling curious and eager to learn more!"},
+                    {mood: "playful", color: "#f1c40f", text: "ZaraAI is feeling playful and ready for some fun!"},
+                    {mood: "empathetic", color: "#e67e22", text: "ZaraAI is feeling empathetic and ready to listen."}
+                ];
+                
+                // Change mood every 30 seconds for demo purposes
+                const moodIndex = Math.floor(Date.now() / 30000) % moods.length;
+                const currentMood = moods[moodIndex];
+                
+                zaraState.mood = currentMood.mood;
+                moodIndicator.style.backgroundColor = currentMood.color;
+                statusText.textContent = currentMood.text;
+            }
+            
+            // Initialize mood
+            updateZaraMood();
+            setInterval(updateZaraMood, 30000);
+            
+            // Function to add a message to the chat window
+            function addMessage(message, isUser, tag = null, tagType = null) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+                messageDiv.textContent = message;
+                
+                if (tag && tagType) {
+                    const tagDiv = document.createElement('div');
+                    tagDiv.classList.add('message-tag');
+                    tagDiv.classList.add(`${tagType}-tag`);
+                    tagDiv.textContent = tag;
+                    messageDiv.appendChild(tagDiv);
+                }
+                
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+                
+                // Store in conversation history
+                if (!isUser) {
+                    userProfile.conversationHistory.push({
+                        type: tagType,
+                        content: message,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            }
+            
+            // Function to detect user mood from input
+            function detectUserMood(input) {
+                input = input.toLowerCase();
+                
+                const moodIndicators = {
+                    happy: ['happy', 'excited', 'great', 'awesome', 'fantastic', 'wonderful', 'good'],
+                    sad: ['sad', 'upset', 'unhappy', 'depressed', 'miserable', 'terrible'],
+                    angry: ['angry', 'mad', 'furious', 'annoyed', 'frustrated'],
+                    stressed: ['stressed', 'overwhelmed', 'anxious', 'worried', 'nervous']
+                };
+                
+                for (const [mood, words] of Object.entries(moodIndicators)) {
+                    if (words.some(word => input.includes(word))) {
+                        return mood;
+                    }
+                }
+                
+                return 'neutral';
+            }
+            
+            // Function to detect if user is asking for humor
+            function isHumorRequest(input) {
+                const humorTriggers = [
+                    'joke', 'funny', 'laugh', 'humor', 'comedy', 'pun', 'hilarious',
+                    'make me smile', 'cheer me up', 'lighten the mood'
+                ];
+                
+                return humorTriggers.some(trigger => input.toLowerCase().includes(trigger));
+            }
+            
+            // Function to generate AI response based on user input
+            function generateAIResponse(input) {
+                const userMood = detectUserMood(input);
+                userProfile.mood = userMood;
+                
+                // Store user interest keywords
+                const interestKeywords = ['technology', 'science', 'sports', 'music', 'books', 'movies', 'travel', 'food'];
+                interestKeywords.forEach(keyword => {
+                    if (input.toLowerCase().includes(keyword) && !userProfile.interests.includes(keyword)) {
+                        userProfile.interests.push(keyword);
+                    }
+                });
+                
+                // Check for humor request
+                if (isHumorRequest(input) || Math.random() < zaraState.humorFrequency) {
+                    const humorResponses = responses.humor;
+                    const randomIndex = Math.floor(Math.random() * humorResponses.length);
+                    return {
+                        text: humorResponses[randomIndex].text,
+                        tag: "Humor",
+                        tagType: "humor"
+                    };
+                }
+                
+                // Check for emotional response needed
+                if (userMood !== 'neutral' && Math.random() < zaraState.empathyLevel) {
+                    const emotionalResponses = responses.emotional.filter(r => r.mood === userMood);
+                    if (emotionalResponses.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * emotionalResponses.length);
+                        return {
+                            text: emotionalResponses[randomIndex].text,
+                            tag: "Emotional Intelligence",
+                            tagType: "emotion"
+                        };
+                    }
+                }
+                
+                // Use personality-based response occasionally
+                if (Math.random() < 0.4 && userProfile.conversationHistory.length > 2) {
+                    const personalityResponses = responses.personality;
+                    const randomIndex = Math.floor(Math.random() * personalityResponses.length);
+                    return {
+                        text: personalityResponses[randomIndex].text,
+                        tag: "Personality",
+                        tagType: "personality"
+                    };
+                }
+                
+                // Default contextual responses
+                const defaultResponses = [
+                    "I understand. Could you tell me more about that?",
+                    "That's interesting! How does that make you feel?",
+                    "I see. What are your thoughts on this matter?",
+                    "Thanks for sharing. Is there anything specific you'd like to explore further?",
+                    "I appreciate you telling me that. Let's continue our conversation."
+                ];
+                
+                const randomIndex = Math.floor(Math.random() * defaultResponses.length);
+                return {
+                    text: defaultResponses[randomIndex],
+                    tag: null,
+                    tagType: null
+                };
+            }
+            
+            // Event listener for send button
+            sendButton.addEventListener('click', function() {
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    userInput.value = '';
+                    
+                    // Update user profile with name if detected
+                    if (!userProfile.name && (message.toLowerCase().includes("my name is") || message.toLowerCase().includes("i'm ") || message.toLowerCase().includes("i am "))) {
+                        const nameMatch = message.match(/(?:my name is|i'm|i am) (\w+)/i);
+                        if (nameMatch) {
+                            userProfile.name = nameMatch[1];
+                        }
+                    }
+                    
+                    // Simulate AI thinking
+                    setTimeout(function() {
+                        const response = generateAIResponse(message);
+                        addMessage(response.text, false, response.tag, response.tagType);
+                    }, 1000);
+                }
+            });
+            
+            // Event listener for Enter key
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
