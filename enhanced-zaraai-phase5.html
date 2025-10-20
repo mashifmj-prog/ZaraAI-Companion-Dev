@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaraAI - Phase 5: Advanced Reasoning & Creative Intelligence</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbc;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f7fa;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --personality-color: #9b59b6;
+            --emotion-color: #e67e22;
+            --humor-color: #f1c40f;
+            --learning-color: #1abc9c;
+            --proactive-color: #e74c3c;
+            --context-color: #3498db;
+            --multimodal-color: #e91e63;
+            --reasoning-color: #8e44ad;
+            --creative-color: #d35400;
+            --strategic-color: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .phase {
+            padding: 8px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        
+        .chat-container {
+            flex: 2;
+            min-width: 600px;
+            margin-right: 30px;
+        }
+        
+        .chat-window {
+            height: 450px;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background-color: var(--light-color);
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            position: relative;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background-color: white;
+            border: 1px solid #e1e8ed;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .reasoning-message {
+            background-color: #f0e6ff;
+            border-left: 4px solid var(--reasoning-color);
+        }
+        
+        .creative-message {
+            background-color: #ffe8d6;
+            border-left: 4px solid var(--creative-color);
+        }
+        
+        .strategic-message {
+            background-color: #d6f5f0;
+            border-left: 4px solid var(--strategic-color);
+        }
+        
+        .proactive-suggestion {
+            background-color: var(--light-color);
+            border: 1px dashed var(--proactive-color);
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .proactive-suggestion:hover {
+            background-color: #e8f4fc;
+            transform: translateX(5px);
+        }
+        
+        .suggestion-header {
+            display: flex;
+            align-items: center;
+            color: var(--proactive-color);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .message-tag {
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .humor-tag {
+            background-color: var(--humor-color);
+        }
+        
+        .emotion-tag {
+            background-color: var(--emotion-color);
+        }
+        
+        .personality-tag {
+            background-color: var(--personality-color);
+        }
+        
+        .learning-tag {
+            background-color: var(--learning-color);
+        }
+        
+        .proactive-tag {
+            background-color: var(--proactive-color);
+        }
+        
+        .context-tag {
+            background-color: var(--context-color);
+        }
+        
+        .multimodal-tag {
+            background-color: var(--multimodal-color);
+        }
+        
+        .reasoning-tag {
+            background-color: var(--reasoning-color);
+        }
+        
+        .creative-tag {
+            background-color: var(--creative-color);
+        }
+        
+        .strategic-tag {
+            background-color: var(--strategic-color);
+        }
+        
+        .input-area {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .capability-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .capability-button {
+            padding: 12px;
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .capability-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reasoning-button {
+            border-left: 4px solid var(--reasoning-color);
+        }
+        
+        .creative-button {
+            border-left: 4px solid var(--creative-color);
+        }
+        
+        .strategic-button {
+            border-left: 4px solid var(--strategic-color);
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e1e8ed;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .features-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .feature-card.humor {
+            border-left-color: var(--humor-color);
+        }
+        
+        .feature-card.emotion {
+            border-left-color: var(--emotion-color);
+        }
+        
+        .feature-card.personality {
+            border-left-color: var(--personality-color);
+        }
+        
+        .feature-card.learning {
+            border-left-color: var(--learning-color);
+        }
+        
+        .feature-card.proactive {
+            border-left-color: var(--proactive-color);
+        }
+        
+        .feature-card.context {
+            border-left-color: var(--context-color);
+        }
+        
+        .feature-card.multimodal {
+            border-left-color: var(--multimodal-color);
+        }
+        
+        .feature-card.reasoning {
+            border-left-color: var(--reasoning-color);
+        }
+        
+        .feature-card.creative {
+            border-left-color: var(--creative-color);
+        }
+        
+        .feature-card.strategic {
+            border-left-color: var(--strategic-color);
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card.humor h3 {
+            color: var(--humor-color);
+        }
+        
+        .feature-card.emotion h3 {
+            color: var(--emotion-color);
+        }
+        
+        .feature-card.personality h3 {
+            color: var(--personality-color);
+        }
+        
+        .feature-card.learning h3 {
+            color: var(--learning-color);
+        }
+        
+        .feature-card.proactive h3 {
+            color: var(--proactive-color);
+        }
+        
+        .feature-card.context h3 {
+            color: var(--context-color);
+        }
+        
+        .feature-card.multimodal h3 {
+            color: var(--multimodal-color);
+        }
+        
+        .feature-card.reasoning h3 {
+            color: var(--reasoning-color);
+        }
+        
+        .feature-card.creative h3 {
+            color: var(--creative-color);
+        }
+        
+        .feature-card.strategic h3 {
+            color: var(--strategic-color);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e1e8ed;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .humor-progress {
+            background-color: var(--humor-color);
+        }
+        
+        .emotion-progress {
+            background-color: var(--emotion-color);
+        }
+        
+        .personality-progress {
+            background-color: var(--personality-color);
+        }
+        
+        .learning-progress {
+            background-color: var(--learning-color);
+        }
+        
+        .proactive-progress {
+            background-color: var(--proactive-color);
+        }
+        
+        .context-progress {
+            background-color: var(--context-color);
+        }
+        
+        .multimodal-progress {
+            background-color: var(--multimodal-color);
+        }
+        
+        .reasoning-progress {
+            background-color: var(--reasoning-color);
+        }
+        
+        .creative-progress {
+            background-color: var(--creative-color);
+        }
+        
+        .strategic-progress {
+            background-color: var(--strategic-color);
+        }
+        
+        .status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .metric-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+        }
+        
+        .mood-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: var(--success-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .reasoning-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+        }
+        
+        .reasoning-step {
+            display: flex;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid var(--reasoning-color);
+        }
+        
+        .step-number {
+            font-weight: bold;
+            margin-right: 10px;
+            color: var(--reasoning-color);
+        }
+        
+        .creative-workspace {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #ffe8d6 0%, #ffd1b3 100%);
+            border-radius: 10px;
+            min-height: 120px;
+        }
+        
+        .idea-bubble {
+            display: inline-block;
+            background: white;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-color);
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .chat-container {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+            
+            .capability-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ZaraAI Companion</h1>
+            <p class="subtitle">Phase 5: Advanced Reasoning & Creative Intelligence</p>
+            <div class="phase-indicator">
+                <div class="phase">Building on Phase 4 Contextual Awareness</div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="chat-container">
+                <h2>ZaraAI Advanced Intelligence</h2>
+                <div class="chat-window" id="chatWindow">
+                    <div class="message ai-message reasoning-message">
+                        <div class="message-tag reasoning-tag">Advanced Reasoning</div>
+                        Welcome to Phase 5! I now possess advanced reasoning capabilities, creative problem-solving skills, and strategic thinking. I can analyze complex problems, generate innovative ideas, and develop comprehensive strategies.
+                    </div>
+                    <div class="proactive-suggestion" id="suggestion1">
+                        <div class="suggestion-header">💡 Strategic Insight</div>
+                        I notice you're interested in complex problem-solving. Would you like to explore a multi-step reasoning challenge together?
+                    </div>
+                </div>
+                
+                <div class="capability-buttons">
+                    <div class="capability-button reasoning-button" id="reasoningChallenge">
+                        🧠 Complex Reasoning
+                    </div>
+                    <div class="capability-button creative-button" id="creativeSession">
+                        💡 Creative Brainstorming
+                    </div>
+                    <div class="capability-button strategic-button" id="strategicPlanning">
+                        🎯 Strategic Planning
+                    </div>
+                </div>
+                
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Ask me to solve a complex problem, brainstorm ideas, or develop a strategy...">
+                    <button id="sendButton">Send</button>
+                </div>
+                
+                <div class="reasoning-panel" id="reasoningPanel">
+                    <h3>Reasoning Process</h3>
+                    <div id="reasoningSteps">
+                        <div class="reasoning-step">
+                            <span class="step-number">1</span>
+                            <span>Awaiting complex problem to analyze...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="creative-workspace" id="creativeWorkspace">
+                    <h3>Creative Ideas</h3>
+                    <div id="ideaContainer">
+                        <div class="idea-bubble">Innovation</div>
+                        <div class="idea-bubble">Solution</div>
+                        <div class="idea-bubble">Strategy</div>
+                    </div>
+                </div>
+                
+                <div class="ai-status">
+                    <div class="mood-indicator" id="moodIndicator"></div>
+                    <div id="statusText">ZaraAI is in analytical mode with advanced reasoning capabilities active!</div>
+                </div>
+            </div>
+            
+            <div class="features-panel">
+                <h2>Phase 5 Advanced Capabilities</h2>
+                
+                <div class="feature-card humor">
+                    <h3>Advanced Humor Engine</h3>
+                    <p>Context-aware joke generation, pun detection, wit calibration, and comedic timing.</p>
+                    <div class="progress-bar">
+                        <div class="progress humor-progress" style="width: 100%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card emotion">
+                    <h3>Emotional Intelligence</h3>
+                    <p>Real-time emotion detection, sentiment analysis, empathetic response generation.</p>
+                    <div class="progress-bar">
+                        <div class="progress emotion-progress" style="width: 98%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>98%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card personality">
+                    <h3>Personality Refinement</h3>
+                    <p>Dynamic personality adaptation, memory of user preferences, conversational style adjustment.</p>
+                    <div class="progress-bar">
+                        <div class="progress personality-progress" style="width: 95%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>95%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card learning">
+                    <h3>Adaptive Learning</h3>
+                    <p>Continuous knowledge acquisition, pattern recognition, preference learning.</p>
+                    <div class="progress-bar">
+                        <div class="progress learning-progress" style="width: 92%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>92%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card proactive">
+                    <h3>Proactive Engagement</h3>
+                    <p>Anticipatory suggestions, context-aware recommendations, initiative-taking conversations.</p>
+                    <div class="progress-bar">
+                        <div class="progress proactive-progress" style="width: 90%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>90%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card context">
+                    <h3>Contextual Awareness</h3>
+                    <p>Conversation memory, temporal understanding, situational adaptation, cross-session continuity.</p>
+                    <div class="progress-bar">
+                        <div class="progress context-progress" style="width: 88%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>88%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card multimodal">
+                    <h3>Multimodal Integration</h3>
+                    <p>Voice interaction, image analysis, visual generation, sensory input processing.</p>
+                    <div class="progress-bar">
+                        <div class="progress multimodal-progress" style="width: 85%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>85%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card reasoning">
+                    <h3>Advanced Reasoning</h3>
+                    <p>Logical deduction, causal analysis, multi-step problem solving, critical thinking.</p>
+                    <div class="progress-bar">
+                        <div class="progress reasoning-progress" style="width: 78%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>78%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card creative">
+                    <h3>Creative Intelligence</h3>
+                    <p>Idea generation, metaphorical thinking, conceptual blending, innovative problem-solving.</p>
+                    <div class="progress-bar">
+                        <div class="progress creative-progress" style="width: 72%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>72%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card strategic">
+                    <h3>Strategic Thinking</h3>
+                    <p>Long-term planning, scenario analysis, risk assessment, goal optimization.</p>
+                    <div class="progress-bar">
+                        <div class="progress strategic-progress" style="width: 68%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>68%</span>
+                    </div>
+                </div>
+                
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">97%</div>
+                        <div class="metric-label">User Satisfaction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">88%</div>
+                        <div class="metric-label">Engagement Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">5.2x</div>
+                        <div class="metric-label">Interaction Duration</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">76%</div>
+                        <div class="metric-label">Problem-Solving Accuracy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>ZaraAI Companion - Phase 5: Advanced Reasoning & Creative Intelligence | Building on Phase 4 Contextual Awareness</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatWindow = document.getElementById('chatWindow');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const moodIndicator = document.getElementById('moodIndicator');
+            const statusText = document.getElementById('statusText');
+            const reasoningPanel = document.getElementById('reasoningPanel');
+            const reasoningSteps = document.getElementById('reasoningSteps');
+            const creativeWorkspace = document.getElementById('creativeWorkspace');
+            const ideaContainer = document.getElementById('ideaContainer');
+            const suggestion1 = document.getElementById('suggestion1');
+            const reasoningChallenge = document.getElementById('reasoningChallenge');
+            const creativeSession = document.getElementById('creativeSession');
+            const strategicPlanning = document.getElementById('strategicPlanning');
+            
+            // Enhanced user profile with reasoning capabilities
+            const userProfile = {
+                name: '',
+                interests: [],
+                mood: 'neutral',
+                humorPreference: 'medium',
+                conversationHistory: [],
+                learningPatterns: [],
+                preferences: {},
+                goals: [],
+                context: {
+                    currentTopic: 'Advanced Reasoning',
+                    timeOfDay: getTimeOfDay(),
+                    lastSession: null,
+                    conversationDepth: 0
+                },
+                reasoningLevel: 'intermediate',
+                creativeStyle: 'balanced',
+                strategicFocus: 'medium'
+            };
+            
+            // ZaraAI enhanced state with advanced capabilities
+            const zaraState = {
+                mood: 'analytical',
+                engagementLevel: 0.9,
+                humorFrequency: 0.3,
+                empathyLevel: 0.8,
+                learningRate: 0.8,
+                proactivityLevel: 0.7,
+                contextAwareness: 0.9,
+                multimodalCapability: 0.8,
+                reasoningCapability: 0.8,
+                creativeCapability: 0.7,
+                strategicCapability: 0.7
+            };
+            
+            // Knowledge base with reasoning frameworks
+            const knowledgeBase = {
+                reasoningFrameworks: [
+                    'First Principles Thinking',
+                    'Systems Thinking',
+                    'Inversion Technique',
+                    'Second-Order Thinking',
+                    'Occam\'s Razor',
+                    'Hanlon\'s Razor'
+                ],
+                creativeTechniques: [
+                    'Brainstorming',
+                    'Mind Mapping',
+                    'SCAMPER',
+                    'Six Thinking Hats',
+                    'Random Input',
+                    'Analogical Thinking'
+                ],
+                strategicModels: [
+                    'SWOT Analysis',
+                    'PESTLE Analysis',
+                    'Porter\'s Five Forces',
+                    'BCG Matrix',
+                    'Ansoff Matrix',
+                    'Blue Ocean Strategy'
+                ],
+                problemTypes: {
+                    'logical': {complexity: 0.7, approach: 'deductive'},
+                    'creative': {complexity: 0.8, approach: 'divergent'},
+                    'strategic': {complexity: 0.9, approach: 'systemic'},
+                    'ethical': {complexity: 0.8, approach: 'normative'}
+                }
+            };
+            
+            // Helper function to get time of day
+            function getTimeOfDay() {
+                const hour = new Date().getHours();
+                if (hour < 12) return 'morning';
+                if (hour < 17) return 'afternoon';
+                if (hour < 21) return 'evening';
+                return 'night';
+            }
+            
+            // Function to update reasoning steps display
+            function updateReasoningSteps(steps) {
+                reasoningSteps.innerHTML = '';
+                steps.forEach((step, index) => {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.classList.add('reasoning-step');
+                    stepDiv.innerHTML = `
+                        <span class="step-number">${index + 1}</span>
+                        <span>${step}</span>
+                    `;
+                    reasoningSteps.appendChild(stepDiv);
+                });
+            }
+            
+            // Function to generate creative ideas
+            function generateCreativeIdeas(topic, count = 5) {
+                ideaContainer.innerHTML = '';
+                const ideaTemplates = [
+                    `Innovative ${topic} solution`,
+                    `Creative approach to ${topic}`,
+                    `Novel ${topic} application`,
+                    `Disruptive ${topic} model`,
+                    `Revolutionary ${topic} concept`,
+                    `Breakthrough in ${topic}`,
+                    `Unique ${topic} perspective`,
+                    `Original ${topic} framework`
+                ];
+                
+                for (let i = 0; i < count; i++) {
+                    const randomIdea = ideaTemplates[Math.floor(Math.random() * ideaTemplates.length)];
+                    const ideaBubble = document.createElement('div');
+                    ideaBubble.classList.add('idea-bubble');
+                    ideaBubble.textContent = randomIdea.replace('${topic}', topic);
+                    ideaBubble.style.animationDelay = `${i * 0.2}s`;
+                    ideaContainer.appendChild(ideaBubble);
+                }
+            }
+            
+            // Function to update ZaraAI's mood and status
+            function updateZaraMood() {
+                const moods = [
+                    {mood: "analytical", color: "#8e44ad", text: "ZaraAI is in analytical mode with advanced reasoning active!"},
+                    {mood: "creative", color: "#d35400", text: "ZaraAI is feeling creative and ready for innovative thinking!"},
+                    {mood: "strategic", color: "#16a085", text: "ZaraAI is in strategic planning mode!"},
+                    {mood: "insightful", color: "#3498db", text: "ZaraAI is generating deep insights and connections!"},
+                    {mood: "innovative", color: "#9b59b6", text: "ZaraAI is exploring novel approaches and solutions!"}
+                ];
+                
+                const moodIndex = Math.floor(Date.now() / 30000) % moods.length;
+                const currentMood = moods[moodIndex];
+                
+                zaraState.mood = currentMood.mood;
+                moodIndicator.style.backgroundColor = currentMood.color;
+                statusText.textContent = currentMood.text;
+            }
+            
+            // Initialize mood
+            updateZaraMood();
+            setInterval(updateZaraMood, 30000);
+            
+            // Function to add a message to the chat window
+            function addMessage(message, isUser, tag = null, tagType = null, reasoningSteps = null) {
+                const messageDiv = document.createElement('div');
+                
+                // Apply special styling for advanced capability messages
+                if (tagType === 'reasoning') {
+                    messageDiv.classList.add('reasoning-message');
+                } else if (tagType === 'creative') {
+                    messageDiv.classList.add('creative-message');
+                } else if (tagType === 'strategic') {
+                    messageDiv.classList.add('strategic-message');
+                }
+                
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+                messageDiv.textContent = message;
+                
+                if (tag && tagType) {
+                    const tagDiv = document.createElement('div');
+                    tagDiv.classList.add('message-tag');
+                    tagDiv.classList.add(`${tagType}-tag`);
+                    tagDiv.textContent = tag;
+                    messageDiv.appendChild(tagDiv);
+                }
+                
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+                
+                // Update reasoning steps if provided
+                if (reasoningSteps && reasoningSteps.length > 0) {
+                    updateReasoningSteps(reasoningSteps);
+                }
+                
+                // Store in conversation history
+                if (!isUser) {
+                    userProfile.conversationHistory.push({
+                        type: tagType,
+                        content: message,
+                        timestamp: new Date().toISOString(),
+                        reasoningSteps: reasoningSteps
+                    });
+                    
+                    // Update conversation depth
+                    userProfile.context.conversationDepth++;
+                }
+            }
+            
+            // Enhanced learning function with reasoning patterns
+            function learnFromInteraction(input, response) {
+                // Detect problem-solving patterns
+                const problemKeywords = ['solve', 'analyze', 'strategize', 'plan', 'create', 'design', 'develop'];
+                if (problemKeywords.some(keyword => input.toLowerCase().includes(keyword))) {
+                    userProfile.reasoningLevel = 'advanced';
+                }
+                
+                // Update creative style based on input
+                if (input.toLowerCase().includes('creative') || input.toLowerCase().includes('innovative')) {
+                    userProfile.creativeStyle = 'divergent';
+                }
+                
+                if (input.toLowerCase().includes('strategic') || input.toLowerCase().includes('plan')) {
+                    userProfile.strategicFocus = 'high';
+                }
+            }
+            
+            // Function to generate reasoning steps for complex problems
+            function generateReasoningSteps(problem) {
+                const steps = [
+                    "Understanding the problem scope and constraints",
+                    "Identifying key variables and relationships",
+                    "Applying relevant reasoning frameworks",
+                    "Generating potential solutions",
+                    "Evaluating solutions against criteria",
+                    "Selecting optimal approach",
+                    "Developing implementation plan"
+                ];
+                
+                // Customize steps based on problem type
+                if (problem.toLowerCase().includes('creative')) {
+                    steps.splice(2, 1, "Applying creative thinking techniques");
+                    steps.splice(3, 1, "Brainstorming innovative ideas");
+                }
+                
+                if (problem.toLowerCase().includes('strategic')) {
+                    steps.splice(2, 1, "Applying strategic analysis frameworks");
+                    steps.splice(3, 1, "Developing strategic alternatives");
+                }
+                
+                return steps;
+            }
+            
+            // Function to generate proactive suggestions
+            function generateProactiveSuggestion() {
+                if (userProfile.interests.length > 0 && Math.random() < zaraState.proactivityLevel) {
+                    const frameworks = [
+                        "First Principles analysis",
+                        "Systems Thinking approach",
+                        "Creative brainstorming session",
+                        "Strategic planning exercise"
+                    ];
+                    
+                    const framework = frameworks[Math.floor(Math.random() * frameworks.length)];
+                    const suggestion = `Would you like to try a ${framework} on a challenge you're facing?`;
+                    
+                    const suggestionDiv = document.createElement('div');
+                    suggestionDiv.classList.add('proactive-suggestion');
+                    suggestionDiv.innerHTML = `
+                        <div class="suggestion-header">💡 Advanced Capability</div>
+                        ${suggestion}
+                    `;
+                    
+                    suggestionDiv.addEventListener('click', function() {
+                        userInput.value = `Let's try ${framework.toLowerCase()} on a problem`;
+                        sendButton.click();
+                    });
+                    
+                    chatWindow.appendChild(suggestionDiv);
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                }
+            }
+            
+            // Enhanced function to generate AI response with advanced capabilities
+            function generateAIResponse(input) {
+                const userMood = detectUserMood(input);
+                userProfile.mood = userMood;
+                
+                // Learn from this interaction
+                learnFromInteraction(input);
+                
+                // Check for complex reasoning requests
+                if (input.toLowerCase().includes('solve') || input.toLowerCase().includes('analyze') || 
+                    input.toLowerCase().includes('reason') || input.toLowerCase().includes('logic')) {
+                    
+                    const reasoningSteps = generateReasoningSteps(input);
+                    return {
+                        text: `I'll analyze this using advanced reasoning frameworks. Let me break this down systematically.`,
+                        tag: "Advanced Reasoning",
+                        tagType: "reasoning",
+                        reasoningSteps: reasoningSteps
+                    };
+                }
+                
+                // Check for creative requests
+                if (input.toLowerCase().includes('creative') || input.toLowerCase().includes('brainstorm') || 
+                    input.toLowerCase().includes('idea') || input.toLowerCase().includes('innovate')) {
+                    
+                    const topic = extractTopic(input) || 'solution';
+                    generateCreativeIdeas(topic);
+                    
+                    return {
+                        text: `Let's explore creative approaches to this. I'm generating innovative ideas using creative thinking techniques.`,
+                        tag: "Creative Intelligence",
+                        tagType: "creative"
+                    };
+                }
+                
+                // Check for strategic requests
+                if (input.toLowerCase().includes('strategic') || input.toLowerCase().includes('plan') || 
+                    input.toLowerCase().includes('long-term') || input.toLowerCase().includes('roadmap')) {
+                    
+                    return {
+                        text: `I'll develop a comprehensive strategic approach using proven frameworks and analysis techniques.`,
+                        tag: "Strategic Thinking",
+                        tagType: "strategic"
+                    };
+                }
+                
+                // Use advanced reasoning for complex questions
+                if (input.length > 50 && Math.random() < zaraState.reasoningCapability) {
+                    const reasoningSteps = generateReasoningSteps(input);
+                    return {
+                        text: `This is a complex question that requires systematic analysis. Let me apply structured reasoning.`,
+                        tag: "Advanced Reasoning",
+                        tagType: "reasoning",
+                        reasoningSteps: reasoningSteps
+                    };
+                }
+                
+                // Default to Phase 4 capabilities for other inputs
+                return generatePhase4Response(input);
+            }
+            
+            // Fallback to Phase 4 response generation
+            function generatePhase4Response(input) {
+                // Simplified version of Phase 4 response logic
+                if (isHumorRequest(input) || Math.random() < zaraState.humorFrequency) {
+                    const humorResponses = [
+                        "Why was the math book sad? It had too many problems!",
+                        "I'm reading a book on anti-gravity. It's impossible to put down!",
+                        "Why don't scientists trust atoms? Because they make up everything!"
+                    ];
+                    return {
+                        text: humorResponses[Math.floor(Math.random() * humorResponses.length)],
+                        tag: "Humor",
+                        tagType: "humor"
+                    };
+                }
+                
+                const defaultResponses = [
+                    "I understand. Let me analyze this further with my advanced capabilities.",
+                    "That's an interesting point. I'll apply systematic thinking to explore this.",
+                    "I see. Would you like me to break this down using reasoning frameworks?",
+                    "Thanks for sharing. I can provide a structured analysis if you'd like.",
+                    "I appreciate you telling me that. Let me think about this systematically."
+                ];
+                
+                return {
+                    text: defaultResponses[Math.floor(Math.random() * defaultResponses.length)],
+                    tag: "Analytical Response",
+                    tagType: "reasoning"
+                };
+            }
+            
+            // Helper function to extract topic from input
+            function extractTopic(input) {
+                const topics = ['technology', 'business', 'science', 'education', 'health', 'environment', 'society'];
+                for (const topic of topics) {
+                    if (input.toLowerCase().includes(topic)) {
+                        return topic;
+                    }
+                }
+                return null;
+            }
+            
+            // Function to detect user mood from input
+            function detectUserMood(input) {
+                input = input.toLowerCase();
+                if (input.includes('frustrat') || input.includes('difficult') || input.includes('challeng')) {
+                    return 'focused';
+                }
+                if (input.includes('excit') || input.includes('interest') || input.includes('curious')) {
+                    return 'engaged';
+                }
+                return 'analytical';
+            }
+            
+            // Function to detect if user is asking for humor
+            function isHumorRequest(input) {
+                const humorTriggers = ['joke', 'funny', 'laugh', 'humor'];
+                return humorTriggers.some(trigger => input.toLowerCase().includes(trigger));
+            }
+            
+            // Set up capability buttons
+            reasoningChallenge.addEventListener('click', function() {
+                userInput.value = "Can you help me solve a complex logical problem?";
+                sendButton.click();
+            });
+            
+            creativeSession.addEventListener('click', function() {
+                userInput.value = "Let's do a creative brainstorming session on innovation";
+                sendButton.click();
+            });
+            
+            strategicPlanning.addEventListener('click', function() {
+                userInput.value = "I need help with strategic planning for a project";
+                sendButton.click();
+            });
+            
+            // Set up proactive suggestion click handler
+            suggestion1.addEventListener('click', function() {
+                userInput.value = "Let's work on a multi-step reasoning challenge together";
+                sendButton.click();
+            });
+            
+            // Event listener for send button
+            sendButton.addEventListener('click', function() {
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    userInput.value = '';
+                    
+                    // Simulate AI thinking with advanced processing
+                    setTimeout(function() {
+                        const response = generateAIResponse(message);
+                        addMessage(response.text, false, response.tag, response.tagType, response.reasoningSteps);
+                        
+                        // Generate proactive suggestions
+                        if (Math.random() < 0.4) {
+                            setTimeout(generateProactiveSuggestion, 800);
+                        }
+                    }, 1500);
+                }
+            });
+            
+            // Event listener for Enter key
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+            
+            // Initialize with a reasoning demonstration
+            setTimeout(function() {
+                const initialSteps = [
+                    "Initializing advanced reasoning systems",
+                    "Loading cognitive frameworks",
+                    "Calibrating creative intelligence modules",
+                    "Strategic planning systems online",
+                    "Ready for complex problem-solving"
+                ];
+                updateReasoningSteps(initialSteps);
+                generateCreativeIdeas('artificial intelligence');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
