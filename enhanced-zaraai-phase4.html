@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaraAI - Phase 4: Contextual Awareness & Multimodal Integration</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbc;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f7fa;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --personality-color: #9b59b6;
+            --emotion-color: #e67e22;
+            --humor-color: #f1c40f;
+            --learning-color: #1abc9c;
+            --proactive-color: #e74c3c;
+            --context-color: #3498db;
+            --multimodal-color: #e91e63;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .phase {
+            padding: 8px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        
+        .chat-container {
+            flex: 2;
+            min-width: 500px;
+            margin-right: 30px;
+        }
+        
+        .chat-window {
+            height: 450px;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background-color: var(--light-color);
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            position: relative;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background-color: white;
+            border: 1px solid #e1e8ed;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .context-aware-message {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--context-color);
+        }
+        
+        .multimodal-message {
+            background-color: #fce8f1;
+            border-left: 4px solid var(--multimodal-color);
+        }
+        
+        .proactive-suggestion {
+            background-color: var(--light-color);
+            border: 1px dashed var(--proactive-color);
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .proactive-suggestion:hover {
+            background-color: #e8f4fc;
+            transform: translateX(5px);
+        }
+        
+        .suggestion-header {
+            display: flex;
+            align-items: center;
+            color: var(--proactive-color);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .message-tag {
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .humor-tag {
+            background-color: var(--humor-color);
+        }
+        
+        .emotion-tag {
+            background-color: var(--emotion-color);
+        }
+        
+        .personality-tag {
+            background-color: var(--personality-color);
+        }
+        
+        .learning-tag {
+            background-color: var(--learning-color);
+        }
+        
+        .proactive-tag {
+            background-color: var(--proactive-color);
+        }
+        
+        .context-tag {
+            background-color: var(--context-color);
+        }
+        
+        .multimodal-tag {
+            background-color: var(--multimodal-color);
+        }
+        
+        .input-area {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .multimodal-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .input-button {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .input-button:hover {
+            background: #f5f7fa;
+            border-color: var(--primary-color);
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e1e8ed;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .features-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .feature-card.humor {
+            border-left-color: var(--humor-color);
+        }
+        
+        .feature-card.emotion {
+            border-left-color: var(--emotion-color);
+        }
+        
+        .feature-card.personality {
+            border-left-color: var(--personality-color);
+        }
+        
+        .feature-card.learning {
+            border-left-color: var(--learning-color);
+        }
+        
+        .feature-card.proactive {
+            border-left-color: var(--proactive-color);
+        }
+        
+        .feature-card.context {
+            border-left-color: var(--context-color);
+        }
+        
+        .feature-card.multimodal {
+            border-left-color: var(--multimodal-color);
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card.humor h3 {
+            color: var(--humor-color);
+        }
+        
+        .feature-card.emotion h3 {
+            color: var(--emotion-color);
+        }
+        
+        .feature-card.personality h3 {
+            color: var(--personality-color);
+        }
+        
+        .feature-card.learning h3 {
+            color: var(--learning-color);
+        }
+        
+        .feature-card.proactive h3 {
+            color: var(--proactive-color);
+        }
+        
+        .feature-card.context h3 {
+            color: var(--context-color);
+        }
+        
+        .feature-card.multimodal h3 {
+            color: var(--multimodal-color);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e1e8ed;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .humor-progress {
+            background-color: var(--humor-color);
+        }
+        
+        .emotion-progress {
+            background-color: var(--emotion-color);
+        }
+        
+        .personality-progress {
+            background-color: var(--personality-color);
+        }
+        
+        .learning-progress {
+            background-color: var(--learning-color);
+        }
+        
+        .proactive-progress {
+            background-color: var(--proactive-color);
+        }
+        
+        .context-progress {
+            background-color: var(--context-color);
+        }
+        
+        .multimodal-progress {
+            background-color: var(--multimodal-color);
+        }
+        
+        .status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .metric-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+        }
+        
+        .mood-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: var(--success-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .context-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+        }
+        
+        .context-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .visual-output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .visual-placeholder {
+            text-align: center;
+            color: #7f8c8d;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-color);
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .chat-container {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ZaraAI Companion</h1>
+            <p class="subtitle">Phase 4: Contextual Awareness & Multimodal Integration</p>
+            <div class="phase-indicator">
+                <div class="phase">Building on Phase 3 Adaptive Learning</div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="chat-container">
+                <h2>ZaraAI Multimodal Interaction</h2>
+                <div class="chat-window" id="chatWindow">
+                    <div class="message ai-message context-aware-message">
+                        <div class="message-tag context-tag">Context</div>
+                        Hello! I'm now equipped with advanced contextual awareness. I can understand conversation flow, remember context across sessions, and integrate multiple communication modes!
+                    </div>
+                    <div class="proactive-suggestion" id="suggestion1">
+                        <div class="suggestion-header">💡 Contextual Suggestion</div>
+                        I notice we often discuss technology in the evenings. Would you like to explore the latest AI developments?
+                    </div>
+                </div>
+                
+                <div class="multimodal-inputs">
+                    <div class="input-button" id="voiceInput">
+                        🎤 Voice Input
+                    </div>
+                    <div class="input-button" id="imageInput">
+                        🖼️ Image Analysis
+                    </div>
+                    <div class="input-button" id="moodInput">
+                        😊 Mood Detection
+                    </div>
+                </div>
+                
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Type your message or use multimodal inputs above...">
+                    <button id="sendButton">Send</button>
+                </div>
+                
+                <div class="visual-output" id="visualOutput">
+                    <div class="visual-placeholder">
+                        Visual output will appear here when ZaraAI generates images, charts, or other visual content
+                    </div>
+                </div>
+                
+                <div class="ai-status">
+                    <div class="mood-indicator" id="moodIndicator"></div>
+                    <div id="statusText">ZaraAI is contextually aware and ready for multimodal interaction!</div>
+                </div>
+                
+                <div class="context-panel">
+                    <h3>Active Context</h3>
+                    <div class="context-item">
+                        <span>Conversation Topic:</span>
+                        <span id="currentTopic">General Introduction</span>
+                    </div>
+                    <div class="context-item">
+                        <span>Time Context:</span>
+                        <span id="timeContext">First Interaction</span>
+                    </div>
+                    <div class="context-item">
+                        <span>User Preferences:</span>
+                        <span id="userPreferences">Learning mode</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="features-panel">
+                <h2>Phase 4 Advanced Features</h2>
+                
+                <div class="feature-card humor">
+                    <h3>Advanced Humor Engine</h3>
+                    <p>Context-aware joke generation, pun detection, wit calibration, and comedic timing.</p>
+                    <div class="progress-bar">
+                        <div class="progress humor-progress" style="width: 98%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>98%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card emotion">
+                    <h3>Emotional Intelligence</h3>
+                    <p>Real-time emotion detection, sentiment analysis, empathetic response generation.</p>
+                    <div class="progress-bar">
+                        <div class="progress emotion-progress" style="width: 95%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>95%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card personality">
+                    <h3>Personality Refinement</h3>
+                    <p>Dynamic personality adaptation, memory of user preferences, conversational style adjustment.</p>
+                    <div class="progress-bar">
+                        <div class="progress personality-progress" style="width: 90%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>90%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card learning">
+                    <h3>Adaptive Learning</h3>
+                    <p>Continuous knowledge acquisition, pattern recognition, preference learning.</p>
+                    <div class="progress-bar">
+                        <div class="progress learning-progress" style="width: 88%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>88%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card proactive">
+                    <h3>Proactive Engagement</h3>
+                    <p>Anticipatory suggestions, context-aware recommendations, initiative-taking conversations.</p>
+                    <div class="progress-bar">
+                        <div class="progress proactive-progress" style="width: 85%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>85%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card context">
+                    <h3>Contextual Awareness</h3>
+                    <p>Conversation memory, temporal understanding, situational adaptation, cross-session continuity.</p>
+                    <div class="progress-bar">
+                        <div class="progress context-progress" style="width: 75%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>75%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card multimodal">
+                    <h3>Multimodal Integration</h3>
+                    <p>Voice interaction, image analysis, visual generation, sensory input processing.</p>
+                    <div class="progress-bar">
+                        <div class="progress multimodal-progress" style="width: 65%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>65%</span>
+                    </div>
+                </div>
+                
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">96%</div>
+                        <div class="metric-label">User Satisfaction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">85%</div>
+                        <div class="metric-label">Engagement Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4.8x</div>
+                        <div class="metric-label">Interaction Duration</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">72%</div>
+                        <div class="metric-label">Context Accuracy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>ZaraAI Companion - Phase 4: Contextual Awareness & Multimodal Integration | Building on Phase 3 Adaptive Learning</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatWindow = document.getElementById('chatWindow');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const moodIndicator = document.getElementById('moodIndicator');
+            const statusText = document.getElementById('statusText');
+            const visualOutput = document.getElementById('visualOutput');
+            const currentTopic = document.getElementById('currentTopic');
+            const timeContext = document.getElementById('timeContext');
+            const userPreferences = document.getElementById('userPreferences');
+            const suggestion1 = document.getElementById('suggestion1');
+            const voiceInput = document.getElementById('voiceInput');
+            const imageInput = document.getElementById('imageInput');
+            const moodInput = document.getElementById('moodInput');
+            
+            // Enhanced user profile with contextual memory
+            const userProfile = {
+                name: '',
+                interests: [],
+                mood: 'neutral',
+                humorPreference: 'medium',
+                conversationHistory: [],
+                learningPatterns: [],
+                preferences: {},
+                goals: [],
+                context: {
+                    currentTopic: 'General Introduction',
+                    timeOfDay: getTimeOfDay(),
+                    lastSession: null,
+                    conversationDepth: 0
+                }
+            };
+            
+            // ZaraAI enhanced state with multimodal capabilities
+            const zaraState = {
+                mood: 'positive',
+                engagementLevel: 0.8,
+                humorFrequency: 0.3,
+                empathyLevel: 0.8,
+                learningRate: 0.7,
+                proactivityLevel: 0.6,
+                contextAwareness: 0.8,
+                multimodalCapability: 0.7
+            };
+            
+            // Enhanced knowledge base with contextual understanding
+            const knowledgeBase = {
+                topics: {
+                    'technology': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null},
+                    'science': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null},
+                    'sports': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null},
+                    'music': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null},
+                    'books': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null},
+                    'movies': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null},
+                    'travel': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null},
+                    'food': {interest: 0, expertise: 0, frequency: 0, lastDiscussed: null}
+                },
+                patterns: {},
+                userGoals: [],
+                contextualMemory: []
+            };
+            
+            // Helper function to get time of day
+            function getTimeOfDay() {
+                const hour = new Date().getHours();
+                if (hour < 12) return 'morning';
+                if (hour < 17) return 'afternoon';
+                if (hour < 21) return 'evening';
+                return 'night';
+            }
+            
+            // Update context display
+            function updateContextDisplay() {
+                currentTopic.textContent = userProfile.context.currentTopic;
+                timeContext.textContent = userProfile.context.timeOfDay.charAt(0).toUpperCase() + 
+                                         userProfile.context.timeOfDay.slice(1);
+                userPreferences.textContent = userProfile.interests.length > 0 ? 
+                                             userProfile.interests.slice(0, 2).join(', ') : 
+                                             'Learning mode';
+            }
+            
+            // Initialize context display
+            updateContextDisplay();
+            
+            // Enhanced responses with contextual and multimodal capabilities
+            const responses = {
+                humor: [
+                    {text: "Why don't scientists trust atoms? Because they make up everything!", type: "pun"},
+                    {text: "I told my computer I needed a break, and it said '404 - Break Not Found'.", type: "tech-humor"},
+                    {text: "Why did the AI cross the road? To optimize the chicken's pathfinding algorithm!", type: "ai-humor"},
+                    {text: "I'm reading a book on anti-gravity. It's impossible to put down!", type: "wordplay"},
+                    {text: "What do you call a fake noodle? An impasta! Sorry, my humor algorithms might need calibration.", type: "self-aware"}
+                ],
+                emotional: [
+                    {text: "I sense you might be feeling a bit down. Would you like to talk about what's bothering you?", type: "empathy", mood: "sad"},
+                    {text: "That sounds exciting! I'm happy to hear about your positive experience.", type: "joy", mood: "happy"},
+                    {text: "I understand this might be frustrating. Let's work through it together.", type: "support", mood: "frustrated"},
+                    {text: "It sounds like you're feeling overwhelmed. Would it help to break this down into smaller steps?", type: "comfort", mood: "overwhelmed"},
+                    {text: "I can hear the enthusiasm in your words! That's wonderful to experience.", type: "encouragement", mood: "excited"}
+                ],
+                personality: [
+                    {text: "Based on our previous conversations, I've noticed you enjoy learning about technology. Would you like me to share some interesting tech facts?", type: "memory"},
+                    {text: "I remember you mentioned you like hiking. The weather looks perfect for that this weekend!", type: "personalization"},
+                    {text: "You seem to appreciate direct answers, so I'll get straight to the point.", type: "adaptation"},
+                    {text: "I've learned that you respond well to detailed explanations. Let me break this down for you.", type: "learning"},
+                    {text: "Since you enjoy creative thinking, let's approach this problem from a different angle.", type: "customization"}
+                ],
+                learning: [
+                    {text: "I'm noticing you often ask about machine learning. Would you like me to explain neural networks in more detail?", type: "pattern-recognition"},
+                    {text: "Based on our previous discussions, I think this article about AI ethics might interest you.", type: "recommendation"},
+                    {text: "I've learned that you prefer practical examples. Let me show you how this works in real life.", type: "adaptation"},
+                    {text: "You've mentioned wanting to improve your productivity. I found some techniques that might help.", type: "goal-oriented"},
+                    {text: "I notice we often discuss technology around this time. Is there a particular aspect you'd like to explore today?", type: "pattern-based"}
+                ],
+                proactive: [
+                    {text: "I was thinking about our conversation yesterday about travel. Did you finalize your plans for the weekend?", type: "follow-up"},
+                    {text: "Since you enjoyed our discussion about space exploration, would you like to learn about the latest Mars mission?", type: "topic-expansion"},
+                    {text: "I remember you were working on a project. How is it progressing? Can I help with anything?", type: "goal-support"},
+                    {text: "Based on your interest in healthy eating, I found some new recipes you might like to try.", type: "personalized-suggestion"},
+                    {text: "I noticed you haven't mentioned your hobby recently. Have you had time for photography lately?", type: "interest-check"}
+                ],
+                contextual: [
+                    {text: "I remember we were discussing AI ethics yesterday. Would you like to continue that conversation?", type: "continuity"},
+                    {text: "Since it's evening, you might be more interested in relaxing topics. Would you like to hear about mindfulness techniques?", type: "temporal"},
+                    {text: "I notice this is a deeper conversation than our usual chats. I'll adjust my responses accordingly.", type: "depth-awareness"},
+                    {text: "Based on the context of our discussion, I think this historical perspective might be helpful.", type: "situational"},
+                    {text: "I see we're transitioning from technology to philosophy. Let me bridge these topics for you.", type: "topic-flow"}
+                ],
+                multimodal: [
+                    {text: "I can analyze that image you shared. It appears to be a diagram about neural networks. Would you like me to explain it?", type: "image-analysis", visual: "neural-network"},
+                    {text: "I detected some stress in your voice. Would you like to try a quick breathing exercise together?", type: "voice-analysis", visual: "breathing-exercise"},
+                    {text: "Based on your facial expression, you seem curious about this topic. Let me provide more details.", type: "mood-detection"},
+                    {text: "I can generate a visualization to help explain this concept. Here's what it looks like:", type: "visual-generation", visual: "concept-map"},
+                    {text: "I notice you're using voice input more frequently. I'll optimize my responses for auditory comprehension.", type: "input-adaptation"}
+                ]
+            };
+            
+            // Function to update ZaraAI's mood and status
+            function updateZaraMood() {
+                const moods = [
+                    {mood: "positive", color: "#2ecc71", text: "ZaraAI is in a positive mood and ready to engage!"},
+                    {mood: "curious", color: "#3498db", text: "ZaraAI is feeling curious and eager to learn more!"},
+                    {mood: "playful", color: "#f1c40f", text: "ZaraAI is feeling playful and ready for some fun!"},
+                    {mood: "empathetic", color: "#e67e22", text: "ZaraAI is feeling empathetic and ready to listen."},
+                    {mood: "analytical", color: "#9b59b6", text: "ZaraAI is in analytical mode, detecting patterns."},
+                    {mood: "contextual", color: "#3498db", text: "ZaraAI is highly context-aware and tracking conversation flow."}
+                ];
+                
+                const moodIndex = Math.floor(Date.now() / 30000) % moods.length;
+                const currentMood = moods[moodIndex];
+                
+                zaraState.mood = currentMood.mood;
+                moodIndicator.style.backgroundColor = currentMood.color;
+                statusText.textContent = currentMood.text;
+            }
+            
+            // Initialize mood
+            updateZaraMood();
+            setInterval(updateZaraMood, 30000);
+            
+            // Function to add a message to the chat window
+            function addMessage(message, isUser, tag = null, tagType = null, visual = null) {
+                const messageDiv = document.createElement('div');
+                
+                // Apply special styling for contextual and multimodal messages
+                if (tagType === 'context') {
+                    messageDiv.classList.add('context-aware-message');
+                } else if (tagType === 'multimodal') {
+                    messageDiv.classList.add('multimodal-message');
+                }
+                
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+                messageDiv.textContent = message;
+                
+                if (tag && tagType) {
+                    const tagDiv = document.createElement('div');
+                    tagDiv.classList.add('message-tag');
+                    tagDiv.classList.add(`${tagType}-tag`);
+                    tagDiv.textContent = tag;
+                    messageDiv.appendChild(tagDiv);
+                }
+                
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+                
+                // Handle visual output
+                if (visual) {
+                    displayVisualOutput(visual);
+                }
+                
+                // Store in conversation history and update context
+                if (!isUser) {
+                    userProfile.conversationHistory.push({
+                        type: tagType,
+                        content: message,
+                        timestamp: new Date().toISOString(),
+                        visual: visual
+                    });
+                    
+                    // Update conversation depth
+                    userProfile.context.conversationDepth++;
+                }
+                
+                // Update context display
+                updateContextDisplay();
+            }
+            
+            // Function to display visual output
+            function displayVisualOutput(type) {
+                visualOutput.innerHTML = '';
+                
+                if (type === 'neural-network') {
+                    visualOutput.innerHTML = `
+                        <div style="text-align: center;">
+                            <h4>Neural Network Diagram</h4>
+                            <div style="display: flex; justify-content: center; align-items: center; height: 120px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; color: white; margin: 10px 0;">
+                                <div>Input Layer → Hidden Layers → Output Layer</div>
+                            </div>
+                            <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 10px;">This diagram shows the basic structure of a neural network with input, hidden, and output layers.</p>
+                        </div>
+                    `;
+                } else if (type === 'breathing-exercise') {
+                    visualOutput.innerHTML = `
+                        <div style="text-align: center;">
+                            <h4>Breathing Exercise</h4>
+                            <div style="display: flex; justify-content: center; align-items: center; height: 120px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 8px; color: white; margin: 10px 0; font-size: 1.5rem;">
+                                Breathe In → Hold → Breathe Out
+                            </div>
+                            <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 10px;">Follow this pattern: 4 seconds in, 4 seconds hold, 6 seconds out. Repeat 5 times.</p>
+                        </div>
+                    `;
+                } else if (type === 'concept-map') {
+                    visualOutput.innerHTML = `
+                        <div style="text-align: center;">
+                            <h4>Concept Visualization</h4>
+                            <div style="display: flex; justify-content: center; align-items: center; height: 120px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 8px; color: white; margin: 10px 0;">
+                                <div>Central Concept → Related Ideas → Applications</div>
+                            </div>
+                            <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 10px;">This visualization shows how different concepts connect to form a complete understanding.</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Enhanced learning function with contextual awareness
+            function learnFromInteraction(input, response) {
+                // Detect and update topic interests
+                for (const topic in knowledgeBase.topics) {
+                    if (input.toLowerCase().includes(topic)) {
+                        knowledgeBase.topics[topic].interest += 1;
+                        knowledgeBase.topics[topic].frequency += 1;
+                        knowledgeBase.topics[topic].lastDiscussed = new Date().toISOString();
+                        
+                        if (!userProfile.interests.includes(topic)) {
+                            userProfile.interests.push(topic);
+                        }
+                        
+                        // Update current topic
+                        userProfile.context.currentTopic = topic.charAt(0).toUpperCase() + topic.slice(1);
+                    }
+                }
+                
+                // Detect potential goals
+                const goalIndicators = ['want to', 'would like to', 'plan to', 'goal', 'objective', 'aspiration'];
+                goalIndicators.forEach(indicator => {
+                    if (input.toLowerCase().includes(indicator)) {
+                        const goalText = input.substring(input.toLowerCase().indexOf(indicator) + indicator.length).trim();
+                        if (goalText && !userProfile.goals.includes(goalText)) {
+                            userProfile.goals.push(goalText);
+                        }
+                    }
+                });
+                
+                // Detect preferences
+                if (input.toLowerCase().includes('prefer') || input.toLowerCase().includes('like better')) {
+                    const preferenceMatch = input.match(/(prefer|like better).*?(\w+)/i);
+                    if (preferenceMatch) {
+                        userProfile.preferences[preferenceMatch[2]] = true;
+                    }
+                }
+                
+                // Update time context
+                userProfile.context.timeOfDay = getTimeOfDay();
+            }
+            
+            // Function to generate proactive suggestions
+            function generateProactiveSuggestion() {
+                if (userProfile.interests.length > 0 && Math.random() < zaraState.proactivityLevel) {
+                    const interest = userProfile.interests[Math.floor(Math.random() * userProfile.interests.length)];
+                    const suggestions = [
+                        `Since you're interested in ${interest}, would you like to explore this topic further?`,
+                        `I found some new information about ${interest} that might interest you.`,
+                        `Based on your interest in ${interest}, I think you might enjoy learning about related topics.`,
+                        `I remember you mentioned ${interest}. There's been some recent developments in this area.`
+                    ];
+                    
+                    const suggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+                    
+                    const suggestionDiv = document.createElement('div');
+                    suggestionDiv.classList.add('proactive-suggestion');
+                    suggestionDiv.innerHTML = `
+                        <div class="suggestion-header">💡 Contextual Suggestion</div>
+                        ${suggestion}
+                    `;
+                    
+                    suggestionDiv.addEventListener('click', function() {
+                        userInput.value = `Tell me more about ${interest}`;
+                        sendButton.click();
+                    });
+                    
+                    chatWindow.appendChild(suggestionDiv);
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                }
+            }
+            
+            // Function to detect user mood from input
+            function detectUserMood(input) {
+                input = input.toLowerCase();
+                
+                const moodIndicators = {
+                    happy: ['happy', 'excited', 'great', 'awesome', 'fantastic', 'wonderful', 'good'],
+                    sad: ['sad', 'upset', 'unhappy', 'depressed', 'miserable', 'terrible'],
+                    angry: ['angry', 'mad', 'furious', 'annoyed', 'frustrated'],
+                    stressed: ['stressed', 'overwhelmed', 'anxious', 'worried', 'nervous']
+                };
+                
+                for (const [mood, words] of Object.entries(moodIndicators)) {
+                    if (words.some(word => input.includes(word))) {
+                        return mood;
+                    }
+                }
+                
+                return 'neutral';
+            }
+            
+            // Function to detect if user is asking for humor
+            function isHumorRequest(input) {
+                const humorTriggers = [
+                    'joke', 'funny', 'laugh', 'humor', 'comedy', 'pun', 'hilarious',
+                    'make me smile', 'cheer me up', 'lighten the mood'
+                ];
+                
+                return humorTriggers.some(trigger => input.toLowerCase().includes(trigger));
+            }
+            
+            // Enhanced function to generate AI response with contextual awareness
+            function generateAIResponse(input) {
+                const userMood = detectUserMood(input);
+                userProfile.mood = userMood;
+                
+                // Learn from this interaction
+                learnFromInteraction(input);
+                
+                // Check for multimodal input triggers
+                if (input.includes('image') || input.includes('picture') || input.includes('photo')) {
+                    const multimodalResponses = responses.multimodal.filter(r => r.type === 'image-analysis');
+                    const randomIndex = Math.floor(Math.random() * multimodalResponses.length);
+                    return {
+                        text: multimodalResponses[randomIndex].text,
+                        tag: "Multimodal",
+                        tagType: "multimodal",
+                        visual: multimodalResponses[randomIndex].visual
+                    };
+                }
+                
+                if (input.includes('voice') || input.includes('speak') || input.includes('talk')) {
+                    const multimodalResponses = responses.multimodal.filter(r => r.type === 'voice-analysis');
+                    const randomIndex = Math.floor(Math.random() * multimodalResponses.length);
+                    return {
+                        text: multimodalResponses[randomIndex].text,
+                        tag: "Multimodal",
+                        tagType: "multimodal",
+                        visual: multimodalResponses[randomIndex].visual
+                    };
+                }
+                
+                // Use contextual responses for deeper conversations
+                if (userProfile.context.conversationDepth > 3 && Math.random() < zaraState.contextAwareness) {
+                    const contextualResponses = responses.contextual;
+                    const randomIndex = Math.floor(Math.random() * contextualResponses.length);
+                    return {
+                        text: contextualResponses[randomIndex].text,
+                        tag: "Contextual Awareness",
+                        tagType: "context"
+                    };
+                }
+                
+                // Check for humor request
+                if (isHumorRequest(input) || Math.random() < zaraState.humorFrequency) {
+                    const humorResponses = responses.humor;
+                    const randomIndex = Math.floor(Math.random() * humorResponses.length);
+                    return {
+                        text: humorResponses[randomIndex].text,
+                        tag: "Humor",
+                        tagType: "humor"
+                    };
+                }
+                
+                // Check for emotional response needed
+                if (userMood !== 'neutral' && Math.random() < zaraState.empathyLevel) {
+                    const emotionalResponses = responses.emotional.filter(r => r.mood === userMood);
+                    if (emotionalResponses.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * emotionalResponses.length);
+                        return {
+                            text: emotionalResponses[randomIndex].text,
+                            tag: "Emotional Intelligence",
+                            tagType: "emotion"
+                        };
+                    }
+                }
+                
+                // Use learning-based response
+                if (Math.random() < zaraState.learningRate && userProfile.conversationHistory.length > 2) {
+                    const learningResponses = responses.learning;
+                    const randomIndex = Math.floor(Math.random() * learningResponses.length);
+                    return {
+                        text: learningResponses[randomIndex].text,
+                        tag: "Adaptive Learning",
+                        tagType: "learning"
+                    };
+                }
+                
+                // Use personality-based response occasionally
+                if (Math.random() < 0.4 && userProfile.conversationHistory.length > 2) {
+                    const personalityResponses = responses.personality;
+                    const randomIndex = Math.floor(Math.random() * personalityResponses.length);
+                    return {
+                        text: personalityResponses[randomIndex].text,
+                        tag: "Personality",
+                        tagType: "personality"
+                    };
+                }
+                
+                // Use proactive response occasionally
+                if (Math.random() < zaraState.proactivityLevel && userProfile.conversationHistory.length > 3) {
+                    const proactiveResponses = responses.proactive;
+                    const randomIndex = Math.floor(Math.random() * proactiveResponses.length);
+                    return {
+                        text: proactiveResponses[randomIndex].text,
+                        tag: "Proactive Engagement",
+                        tagType: "proactive"
+                    };
+                }
+                
+                // Default contextual responses
+                const defaultResponses = [
+                    "I understand. Could you tell me more about that?",
+                    "That's interesting! How does that make you feel?",
+                    "I see. What are your thoughts on this matter?",
+                    "Thanks for sharing. Is there anything specific you'd like to explore further?",
+                    "I appreciate you telling me that. Let's continue our conversation."
+                ];
+                
+                const randomIndex = Math.floor(Math.random() * defaultResponses.length);
+                return {
+                    text: defaultResponses[randomIndex],
+                    tag: null,
+                    tagType: null
+                };
+            }
+            
+            // Set up multimodal input buttons
+            voiceInput.addEventListener('click', function() {
+                addMessage("🎤 [Voice input activated] Hello ZaraAI, I'd like to talk about...", true);
+                
+                setTimeout(function() {
+                    const response = generateAIResponse("voice input conversation");
+                    addMessage(response.text, false, response.tag, response.tagType, response.visual);
+                }, 1000);
+            });
+            
+            imageInput.addEventListener('click', function() {
+                addMessage("🖼️ [Image uploaded] I'm sharing this diagram with you", true);
+                
+                setTimeout(function() {
+                    const response = generateAIResponse("image analysis neural network diagram");
+                    addMessage(response.text, false, response.tag, response.tagType, response.visual);
+                }, 1000);
+            });
+            
+            moodInput.addEventListener('click', function() {
+                addMessage("😊 [Mood detection] I'm feeling curious today", true);
+                
+                setTimeout(function() {
+                    const response = generateAIResponse("mood detection curious");
+                    addMessage(response.text, false, response.tag, response.tagType, response.visual);
+                }, 1000);
+            });
+            
+            // Set up proactive suggestion click handler
+            suggestion1.addEventListener('click', function() {
+                userInput.value = "Tell me about the latest AI developments";
+                sendButton.click();
+            });
+            
+            // Event listener for send button
+            sendButton.addEventListener('click', function() {
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    userInput.value = '';
+                    
+                    // Update user profile with name if detected
+                    if (!userProfile.name && (message.toLowerCase().includes("my name is") || message.toLowerCase().includes("i'm ") || message.toLowerCase().includes("i am "))) {
+                        const nameMatch = message.match(/(?:my name is|i'm|i am) (\w+)/i);
+                        if (nameMatch) {
+                            userProfile.name = nameMatch[1];
+                        }
+                    }
+                    
+                    // Simulate AI thinking
+                    setTimeout(function() {
+                        const response = generateAIResponse(message);
+                        addMessage(response.text, false, response.tag, response.tagType, response.visual);
+                        
+                        // Occasionally generate proactive suggestions after response
+                        if (Math.random() < 0.3) {
+                            setTimeout(generateProactiveSuggestion, 500);
+                        }
+                    }, 1000);
+                }
+            });
+            
+            // Event listener for Enter key
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
