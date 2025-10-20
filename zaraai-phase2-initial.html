@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaraAI - Phase 2: Engagement Intelligence</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbc;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f7fa;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .phase-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .phase {
+            padding: 8px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        
+        .chat-container {
+            flex: 1;
+            min-width: 300px;
+            margin-right: 30px;
+        }
+        
+        .chat-window {
+            height: 400px;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background-color: var(--light-color);
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background-color: white;
+            border: 1px solid #e1e8ed;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .input-area {
+            display: flex;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e1e8ed;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .features-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card h3 i {
+            margin-right: 10px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e1e8ed;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .metric-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-color);
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .chat-container {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ZaraAI Companion</h1>
+            <p class="subtitle">Phase 2: Engagement Intelligence</p>
+            <div class="phase-indicator">
+                <div class="phase">Building on Phase 1 Core Intelligence</div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="chat-container">
+                <h2>ZaraAI Interaction Demo</h2>
+                <div class="chat-window" id="chatWindow">
+                    <div class="message ai-message">
+                        Hello! I'm ZaraAI, now with enhanced engagement capabilities. How can I assist you today?
+                    </div>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Type your message here...">
+                    <button id="sendButton">Send</button>
+                </div>
+            </div>
+            
+            <div class="features-panel">
+                <h2>Phase 2 Features</h2>
+                
+                <div class="feature-card">
+                    <h3>Advanced Humor Engine</h3>
+                    <p>Context-aware joke generation and witty responses based on conversation flow and user preferences.</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 85%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>85%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Emotional Intelligence System</h3>
+                    <p>Real-time emotion detection and appropriate response adaptation based on user sentiment analysis.</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 70%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>70%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Personality Refinement</h3>
+                    <p>Dynamic personality adaptation based on interaction history and user feedback for more natural engagement.</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 60%"></div>
+                    </div>
+                    <div class="status">
+                        <span>Implementation Progress</span>
+                        <span>60%</span>
+                    </div>
+                </div>
+                
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">User Satisfaction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">78%</div>
+                        <div class="metric-label">Engagement Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">3.4x</div>
+                        <div class="metric-label">Interaction Duration</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>ZaraAI Companion - Phase 2: Engagement Intelligence | Building on Phase 1 Core Intelligence Foundation</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatWindow = document.getElementById('chatWindow');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            
+            // Sample responses demonstrating Phase 2 features
+            const responses = {
+                humor: [
+                    "Why don't scientists trust atoms? Because they make up everything!",
+                    "I told my computer I needed a break, and it said '404 - Break Not Found'.",
+                    "Why did the AI cross the road? To optimize the chicken's pathfinding algorithm!"
+                ],
+                emotional: [
+                    "I sense you might be feeling a bit down. Would you like to talk about what's bothering you?",
+                    "That sounds exciting! I'm happy to hear about your positive experience.",
+                    "I understand this might be frustrating. Let's work through it together."
+                ],
+                personality: [
+                    "Based on our previous conversations, I've noticed you enjoy learning about technology. Would you like me to share some interesting tech facts?",
+                    "I remember you mentioned you like hiking. The weather looks perfect for that this weekend!",
+                    "You seem to appreciate direct answers, so I'll get straight to the point."
+                ]
+            };
+            
+            // Function to add a message to the chat window
+            function addMessage(message, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+                messageDiv.textContent = message;
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+            
+            // Function to generate AI response based on user input
+            function generateAIResponse(input) {
+                input = input.toLowerCase();
+                
+                // Humor detection and response
+                if (input.includes('joke') || input.includes('funny') || input.includes('laugh')) {
+                    const randomIndex = Math.floor(Math.random() * responses.humor.length);
+                    return responses.humor[randomIndex];
+                }
+                
+                // Emotional response detection
+                if (input.includes('sad') || input.includes('upset') || input.includes('angry') || 
+                    input.includes('happy') || input.includes('excited') || input.includes('worried')) {
+                    if (input.includes('sad') || input.includes('upset') || input.includes('angry') || input.includes('worried')) {
+                        return responses.emotional[0];
+                    } else {
+                        return responses.emotional[1];
+                    }
+                }
+                
+                // Personality-based response
+                if (input.includes('remember') || input.includes('know me') || input.includes('personality')) {
+                    const randomIndex = Math.floor(Math.random() * responses.personality.length);
+                    return responses.personality[randomIndex];
+                }
+                
+                // Default responses
+                const defaultResponses = [
+                    "I understand. Could you tell me more about that?",
+                    "That's interesting! How does that make you feel?",
+                    "I see. What are your thoughts on this matter?",
+                    "Thanks for sharing. Is there anything specific you'd like to explore further?",
+                    "I appreciate you telling me that. Let's continue our conversation."
+                ];
+                
+                const randomIndex = Math.floor(Math.random() * defaultResponses.length);
+                return defaultResponses[randomIndex];
+            }
+            
+            // Event listener for send button
+            sendButton.addEventListener('click', function() {
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    userInput.value = '';
+                    
+                    // Simulate AI thinking
+                    setTimeout(function() {
+                        const response = generateAIResponse(message);
+                        addMessage(response, false);
+                    }, 1000);
+                }
+            });
+            
+            // Event listener for Enter key
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
